@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
         marginVertical: 5,
         alignSelf: 'stretch',
         padding: 8,
-        fontSize: 16
+        fontSize: 16,
     },
  
     Btn: {
@@ -45,5 +45,9 @@ export const styles = StyleSheet.create({
         paddingTop: 40,
         marginTop: 40
 
+    },
+
+    signUpText: {
+        color: 'dodgerblue',
     }
 });
