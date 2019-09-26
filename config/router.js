@@ -8,6 +8,19 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 
+const handleCustomTransition = ({ scenes }) => {
+  const prevScene = scenes[scenes.length - 2];
+  const nextScene = scenes[scenes.length - 1];
+ 
+  // Custom transitions go here
+  if (prevScene
+    && prevScene.route.routeName === 'LoginScreen'
+    && nextScene.route.routeName === 'RegisterScreen') {
+    return flipY(1000);
+  } 
+  return fromLeft();
+}
+
 export const RootStack = createStackNavigator( {
       LoginScreen: {
         screen: LoginScreen,
@@ -25,6 +38,6 @@ export const RootStack = createStackNavigator( {
     },  
     {
       initialRouteName: 'LoginScreen',
-      transitionConfig: () => flipY(1000),
+      transitionConfig: (nav) => handleCustomTransition(nav)
     }
 );

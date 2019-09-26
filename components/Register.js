@@ -4,13 +4,11 @@
 
 import React, {Component} from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   TextInput, 
   TouchableOpacity, 
-  ActivityIndicator, 
-  Platform,
+  Alert
 } from 'react-native';
 import { styles } from '../styles/styles';
 import { withNavigation } from 'react-navigation';
@@ -20,6 +18,7 @@ class RegisterComponent extends Component {
     constructor(props) {
         super(props);
         this.saveData = this.saveData.bind(this);
+        this.navigate = this.navigate.bind(this);
 
         this.state = { email: '', password: '', firstname: '', lastname: '',
             loading: false, disabled: false }
@@ -31,14 +30,21 @@ class RegisterComponent extends Component {
                           alignSelf: 'center',
                           textAlign: 'center',
                           flexGrow: 1}
-      });
+    });
+
+    // Navigate either to home page or login screen
+    navigate = (screen, email) => {
+        if (email != null) {
+            this.props.navigation.navigate(screen, { userEmail: email });
+        } else {
+            this.props.navigation.navigate(screen);
+        }
+        
+    }
 
     // Save the user registration data to database
     saveData = () => {
-        this.setState({ loading: true, disabled: true }, () =>
-        {
-            fetch('http://localhost:4200',
-        {
+            fetch('http://localhost:4200/register.php', {
             method: 'POST',
             headers: 
             {
@@ -48,60 +54,54 @@ class RegisterComponent extends Component {
             body: JSON.stringify(
             {
                 email: this.state.email,
- 
-                password: this.state.password
+                password: this.state.password,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname
             })
  
         }).then((response) => response.json()).then((responseJson) =>
         {
-            this.setState({ loading: false, disabled: false });
 
             //Successful registration, navigate home
-            if (this.state.email != '' && this.state.password != '') {
-                this.props.navigation.navigate("HomeScreen");
+            if (responseJson === 'Success!') {
+                this.navigate("HomeScreen", this.state.email);
             } else {
-                alert(responseJson);
+                Alert.alert(responseJson);
             }
             
         }).catch((error) =>
         {
             console.error(error);
-            this.setState({ loading: false, disabled: false });
-        });
         });
     }
 
     render() {
         return (
 
-        // Registration form with email & password
+        // Registration form with email & password, first name & last name
         <View  style={ styles.container }>
             <TextInput autoCapitalize = 'none' underlineColorAndroid = "transparent" 
                 placeholder = "Email" style = { styles.textInput } 
-                onChangeText = {(text) => this.setState({ email: text })}/>
+                onChangeText = {(text) => this.setState({ email: text })}
+                clearButtonMode='always'/>
  
             <TextInput autoCapitalize = 'none' underlineColorAndroid = "transparent" 
                 placeholder = "Password" secureTextEntry = {true} style = { styles.textInput } 
-                onChangeText = {(text) => this.setState({ password: text })}/>
+                onChangeText = {(text) => this.setState({ password: text })}
+                clearButtonMode='always'/>
 
             <TextInput underlineColorAndroid = "transparent" placeholder = "First name" style = { styles.textInput } 
-                onChangeText = {(text) => this.setState({ firstname: text })}/>
+                onChangeText = {(text) => this.setState({ firstname: text })}
+                clearButtonMode='always'/>
 
             <TextInput underlineColorAndroid = "transparent" placeholder = "Last name" style = { styles.textInput } 
-                onChangeText = {(text) => this.setState({ lastname: text })}/>        
+                onChangeText = {(text) => this.setState({ lastname: text })}
+                clearButtonMode='always'/>        
  
             <TouchableOpacity disabled = { this.state.disabled } activeOpacity = { 0.8 } style = { styles.Btn } onPress = { this.saveData }>
                 <Text style = { styles.btnText }>Register</Text>
             </TouchableOpacity>
- 
-            {/* Displays activity indicator while loading */}
-            {
-                (this.state.loading)
-                ?
-                    (<ActivityIndicator size = "large" />)
-                :
-                    null
-            }
+
             
         </View>
         )
