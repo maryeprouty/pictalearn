@@ -96,7 +96,7 @@ class LoginComponent extends Component {
                 value={this.state.password}
                 clearButtonMode='always'/>
  
-            <TouchableOpacity disabled = { this.state.disabled } activeOpacity = { 0.8 } style = { styles.Btn } onPress = { () => this.login() }>
+            <TouchableOpacity disabled = { this.state.disabled } activeOpacity = { 0.8 } style = { styles.Btn } onPress = { this.login }>
                 <Text style = { styles.btnText }>Login</Text>
             </TouchableOpacity>
 
