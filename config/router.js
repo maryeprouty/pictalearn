@@ -31,9 +31,9 @@ export const RootStack = createStackNavigator( {
       },
       HomeScreen: {
           screen: HomeScreen,
-          navigationOptions: {
-            headerLeft: null,
-          }
+          // navigationOptions: {
+          //   headerLeft: null,
+          // }
       }
     },  
     {

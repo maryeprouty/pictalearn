@@ -49,5 +49,30 @@ export const styles = StyleSheet.create({
 
     signUpText: {
         color: 'dodgerblue',
+    },
+
+    studySet: {
+        backgroundColor: '#ddd09a',
+        borderColor: 'black',
+        width: '80%',
+        height: 150,
+        alignSelf: 'center',
+        borderRadius: 20,
+        marginTop: 40,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    studyText: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: '500',
+    },
+
+    headerButton: {
+        color: 'dodgerblue',
+        marginLeft: 20,
+        marginRight: 20,
     }
 });
