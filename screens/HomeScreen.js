@@ -39,7 +39,8 @@ class HomeScreen extends Component {
         updateStore({
             user: {
                 email: this.props.navigation.state.params.userEmail
-            }
+            },
+            anotherState: 'newValue'
         });
 
         // Allows logout to happen in navbar
@@ -67,6 +68,7 @@ class HomeScreen extends Component {
 
 export default mapStatesToProps(HomeScreen, state => {
     return {
-      user: state.user
+      user: state.user,
+      anotherState: state.anotherState
     };
 });
